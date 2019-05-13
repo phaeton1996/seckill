@@ -1,0 +1,134 @@
+<nav class="navbar navbar-fixed-top my-navbar" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#example-navbar-collapse">
+                <span class="sr-only">切换导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">多拼拼</a>
+        </div>
+        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">秒杀新品</a></li>
+                <li>
+                    <a href="#">加入我们</a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" id="nav-right">
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" >
+                <!-- 搜索框 -->
+                <li>
+                    <div class="search d7" style="padding-top: 10px">
+                        <form>
+                            <input type="text"  style="color:#F5F5F5;" placeholder="Search..."/>
+                            <button type="submit"></button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 登陆的模态框 -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">登陆页面</h4>
+            </div>
+            <div class="modal-body" >
+                <form class="form-horizontal" style="width: 100%">
+
+                    <div class="form-group" >
+                        <label class="col-sm-3 control-label">账号</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="account" class="form-control" id="login_userName_input" placeholder="请输入你的用户名" value="phaeton" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label class="col-sm-3 control-label">密码</label>
+                        <div class="col-sm-6">
+                            <input type="password" name="password" class="form-control" id="login_password_input" placeholder="请输入你的密码" value="970108"/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="user_login_btn">登陆</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 注册的模态框 -->
+<div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">注册页面</h4>
+            </div>
+            <div class="modal-body">
+                <!-- 注册表单 -->
+                <form class="form-horizontal" style="width: 100%">
+                    <div class="form-group">
+                        <!-- 用户名 -->
+                        <label class="col-sm-3 control-label">用户名</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="userName" class="form-control" id=""
+                                   placeholder="请输入你的用户名"/>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <!-- 账号 -->
+                        <label class="col-sm-3 control-label">账号</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="account" class="form-control" id="reg_account_input"
+                                   placeholder="请输入你的账号"/>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <!-- 密码 -->
+                        <label class="col-sm-3 control-label">密码</label>
+                        <div class="col-sm-6">
+                            <input type="password" name="password" class="form-control" id="reg_password_input"
+                                   placeholder="请输入你的密码"/>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- 验证码 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">验证码</label>
+                        <div class="col-sm-6" >
+                            <input type="text" name="val" class="form-control" id="reg_val_input"
+                                   placeholder="请输入下图的验证码"/>
+                            <span class="help-block"></span>
+                            <div id="captcha_img_holder"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="user_reg_close">关闭</button>
+                <button type="button" class="btn btn-primary" id="user_reg_btn">注册</button>
+            </div>
+        </div>
+    </div>
+</div>

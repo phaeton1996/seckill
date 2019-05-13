@@ -1,0 +1,117 @@
+body {
+    min-height: 100vh;
+    font: normal 16px sans-serif;
+}
+
+.con_img{
+    position: relative; 
+    text-align: center;
+}
+
+.ms{
+    position: absolute; 
+    /*position: relative;*/
+    bottom: 0px;
+    left: 0; 
+    width: 100%; 
+    height:15%;  
+    
+    opacity: 0.8;
+    }
+
+.ing{
+    background:linear-gradient(to left, #FA709A 0%, #FEE140 100%);
+}
+
+.pre{
+    background:linear-gradient(to left, #8EC5FC 0%, #E0C3FC 100%);
+}
+
+.toumingzi{
+    color: #fff;
+    letter-spacing: 3px;
+    width: 100%;
+    left: 10px;
+    text-align: center;
+    position: absolute;
+    bottom: -2px;
+}
+
+
+
+.drop-group{
+    margin-left: 2%;
+    margin-top: 30px;
+}
+
+.dropdown-menu{
+    border: none;
+}
+
+.drop{
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: #58595a;
+}
+
+
+.page-big {
+    margin-left: 10%;
+    font-family: 'Droid Sans', sans-serif;
+    font-weight: bold;
+    color: #58595a;
+    float: left;
+}
+
+.tz-gallery {
+    padding: 20px 40px;
+}
+
+.tz-gallery .thumbnail {
+    padding: 0;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    transition: 0.15s ease-in-out;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06);
+}
+
+.tz-gallery .thumbnail:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+.tz-gallery .lightbox img {
+    border-radius: 4px 4px 0 0;
+}
+
+.tz-gallery .caption{
+    padding: 20px 15px 30px 15px;
+}
+
+.tz-gallery .caption p {
+    font-weight: bold;
+    margin: 0;
+}
+
+.caption .goodsname {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.tz-gallery .caption .xianjia {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e8393c;
+    margin: 0;
+}
+
+.tz-gallery .caption .yuanjia {
+    text-decoration:line-through;
+    font-size: 14px;
+    color: #7b7d7d;
+    margin: 0;
+}
+

@@ -1,0 +1,115 @@
+body {
+    min-height: 100vh;
+    font: normal 16px sans-serif;
+}
+
+
+.glyphicon { margin-right:5px; }
+
+
+.page-big {
+    margin-left: 5%;
+    font-family: 'Droid Sans', sans-serif;
+    font-weight: bold;
+    color: #58595a;
+}
+
+.item{
+    border: none;
+    padding-bottom: 20px;
+}
+
+.list-group-item
+{
+    float: none;
+    transition: 0.15s ease-in-out;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06);
+}
+
+.thumbnail{
+    height: 250px;
+    padding: 0;
+    margin-bottom: 10px;
+    border: none;
+
+}
+
+
+.item.list-group-item .list-group-image
+{
+    margin-right: 10px;
+}
+
+.item.list-group-item .thumbnail
+{
+    margin-bottom: 0px;
+}
+
+.item.list-group-item .caption
+{
+    padding: 9px 9px 0px 9px;
+}
+
+.img-size 
+{
+    float: left;
+    height:250px;
+    width: 300px;
+}
+
+.item.list-group-item img
+{
+    height: 80%;
+    margin-top: 6%;
+    margin-left: 20%;
+}
+
+.goodsname {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.order-goodsname {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.desc{
+    color: #7b7d7d;
+    margin: 0;
+    font-size: 14px;
+    width: 90%;
+}
+
+.xianjia {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e8393c;
+    margin: 10px 0 0 0;
+}
+
+.yuanjia {
+    text-decoration:line-through;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+}
+
+
+.stock {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0 0 0;
+}
+
+.center-vertical {
+    vertical-align: middle;
+}
+

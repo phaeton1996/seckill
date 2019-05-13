@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="col-sm-6 col-md-4" th:each="goods:${goodsList}">
+    <div class="thumbnail">
+        <a target="_blank" th:href="${'/seckill/goods_detail.htm?id='+goods.getId()}" >
+            <div class="con_img">
+                <img src="https://img13.360buyimg.com/n7/jfs/t1/3964/21/3360/633468/5b9973c5E1c5c0918/e69c15e4ff1863ec.png"/>
+                <span th:class="${goods.seckillStatus==1?'ms ing':'ms pre'}"></span>
+                <div class="toumingzi">
+                    <p  th:if="${goods.seckillStatus==1}">正在抢购中</p>
+                    <span th:if="${goods.seckillStatus!=1}">
+                        <p
+                           th:text="${'开始于'+
+                            (
+                                #dates.createToday().getDate()==goods.startTime.getDate()
+                                ?
+                                ('今天' + #dates.format(goods.startTime,'HH:mm'))
+                                :
+                                (#dates.format(goods.startTime,'dd日HH:mm'))
+                            )
+                        }"></p>
+                    </span>
+                </div>
+            </div>
+        </a>
+        <div class="caption">
+            <p class="xianjia" th:text="${ '¥' + #numbers.formatDecimal(goods.seckillPrice,0,2)}"></p>
+            <p class="yuanjia" th:text="${ '¥' + #numbers.formatDecimal(goods.price,0,2)}"></p>
+            <h3 class="goodsname" th:text="${goods.name}"></h3>
+        </div>
+    </div>
+</div>
+</html>

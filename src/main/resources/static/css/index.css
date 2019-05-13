@@ -1,0 +1,61 @@
+body {
+    min-height: 100vh;
+    font: normal 16px sans-serif;
+    padding: 40px 0;
+}
+
+.container.gallery-container {
+    min-height: 100vh;
+    padding: 30px 80px;
+}
+
+.page-big {
+    font-family: 'Droid Sans', sans-serif;
+    font-weight: bold;
+    color: #58595a;
+}
+
+.selection{
+    color: #58595a;
+    font-weight: bold;
+}
+
+.page-description {
+    font-size: 18px;
+    color: #999;
+    margin-top:35px ;
+    float: right;
+}
+
+.tz-gallery {
+}
+
+/* Override bootstrap column paddings */
+.tz-gallery .row > div {
+    padding: 2px;
+}
+
+.tz-gallery .lightbox img {
+    width: 100%;
+    border-radius: 0;
+    position: relative;
+}
+
+.tz-gallery .lightbox:hover:after,
+.tz-gallery .lightbox:hover:before {
+    opacity: 1;
+}
+
+.tz-gallery .thumbnail:hover {
+    
+}
+
+.baguetteBox-button {
+    background-color: transparent !important;
+}
+
+@media(max-width: 768px) {
+    body {
+        padding: 0;
+    }
+}
