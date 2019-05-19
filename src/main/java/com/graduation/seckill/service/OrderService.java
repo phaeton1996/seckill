@@ -6,11 +6,13 @@ import com.graduation.seckill.enums.RedisPrefix;
 import com.graduation.seckill.redis.RedisService;
 import com.graduation.seckill.vo.OrderVo;
 import com.graduation.seckill.vo.SeckillVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -53,6 +55,10 @@ public class OrderService {
             redisService.set(RedisPrefix.GOODS_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
         }
         System.out.println("进入抢购操作");
+    }
+
+    List<Order> getByUserId(String userid){
+        return orderDao.getByUserId(userid);
     }
 
     public static void main(String[] args) {

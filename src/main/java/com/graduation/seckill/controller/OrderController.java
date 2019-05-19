@@ -25,7 +25,7 @@ import static com.graduation.seckill.enums.CodeMsg.*;
 
 @Controller
 @RequestMapping("/order")
-public class SeckillController implements InitializingBean {
+public class OrderController implements InitializingBean {
 
     @Autowired
     private MQSender mqSender;
@@ -112,5 +112,10 @@ public class SeckillController implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         goodsService.updateGoodsCache();
+    }
+
+    @RequestMapping("/list")
+    public String getByUserId(String userId, ModelMap map){
+        return "orderlist";
     }
 }
