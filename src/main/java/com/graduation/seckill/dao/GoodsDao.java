@@ -23,7 +23,7 @@ public interface GoodsDao {
      */
     @Select("<script>" +
             "SELECT * FROM goods " +
-            "WHERE 1=1" +
+            "WHERE <![CDATA[unix_timestamp(end_time) > unix_timestamp(NOW())]]>" +
             "<when test='goodsCategory != 0'>" +
             "AND category_id = #{goodsCategory}" +
             "</when>" +

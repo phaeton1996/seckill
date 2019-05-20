@@ -31,7 +31,7 @@ public class GoodsService {
     /* 分页大小 */
     private static final int PAGE_SIZE = 6;
 
-    public Goods getById(int goodsId) {
+    public Goods getCacheById(int goodsId) {
         Goods goods =  redisService.get(GOODS_PREFIX,Integer.toString(goodsId),Goods.class);
         System.out.println(goods);
         if (goods == null){
@@ -41,6 +41,10 @@ public class GoodsService {
             return cache;
         }
         return goods;
+    }
+
+    public Goods getById(int goodsId) {
+        return goodsDao.getById(goodsId);
     }
 
     /**
@@ -69,6 +73,8 @@ public class GoodsService {
                 goodsListVo.setSeckillStatus(1);
             } else if (goodsListVo.getStartTime().after(now)) {
                 goodsListVo.setSeckillStatus(2);
+            }else{
+                goodsListVo.setSeckillStatus(0);
             }
             res.add(goodsListVo);
         }

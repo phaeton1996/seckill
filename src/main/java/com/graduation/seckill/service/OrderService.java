@@ -37,7 +37,6 @@ public class OrderService {
 
     @Transactional
     public void doSeckill(SeckillVo seckillVo) {
-        System.out.println(seckillVo);
         OrderVo orderVo = orderDao.getByUserIDAndGoodsID(seckillVo.getUserId(), seckillVo.getGoodsId());
         if (orderVo != null) {
             return;
@@ -50,14 +49,16 @@ public class OrderService {
             String orderId = prefix + UUID.randomUUID().toString().substring(0, 4);
             //写入数据库
             orderDao.createOrder(seckillVo.getUserId(), seckillVo.getGoodsId(), seckillVo.getAddrId(), orderId);
+            //数量缓存减1
+            redisService.decr(RedisPrefix.GOODS_STOCK_PREFIX,orderVo.getOrderId());
         } else {
             //设置卖完
-            redisService.set(RedisPrefix.GOODS_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
+            redisService.set(RedisPrefix.GOODS_STOCK_PREFIX, orderVo.getOrderId(), 0);
         }
         System.out.println("进入抢购操作");
     }
 
-    List<Order> getByUserId(String userid){
+    public List<Order> getByUserId(int userid){
         return orderDao.getByUserId(userid);
     }
 

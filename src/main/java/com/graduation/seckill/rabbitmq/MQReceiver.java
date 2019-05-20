@@ -24,7 +24,6 @@ public class MQReceiver {
     @RabbitListener(queues = MQConfig.SECKILL_QUEUE)
     public void receive(String message) {
         SeckillVo seckillVo = redisService.stringToBean(message, SeckillVo.class);
-        System.out.println(seckillVo);
         // 判断库存
         Goods goods = goodsService.getById(seckillVo.getGoodsId());
         if (goods.getStocks() <= 0){

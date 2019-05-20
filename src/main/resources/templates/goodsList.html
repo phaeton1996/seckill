@@ -7,7 +7,7 @@
                 <span th:class="${goods.seckillStatus==1?'ms ing':'ms pre'}"></span>
                 <div class="toumingzi">
                     <p  th:if="${goods.seckillStatus==1}">正在抢购中</p>
-                    <span th:if="${goods.seckillStatus!=1}">
+                    <span th:if="${goods.seckillStatus==2}">
                         <p
                            th:text="${'开始于'+
                             (
@@ -19,6 +19,7 @@
                             )
                         }"></p>
                     </span>
+                    <p  th:if="${goods.seckillStatus==0}">抢购已结束</p>
                 </div>
             </div>
         </a>

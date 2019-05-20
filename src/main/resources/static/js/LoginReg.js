@@ -25,7 +25,7 @@ function checkLoginStatus() {
                     '                          <a href="#">我的资料</a>\n' +
                     '                       </li>\n' +
                     '                       <li>\n' +
-                    '                          <a href="orderlist.html" target="_blank">我的订单</a>\n' +
+                    '                          <a href="/seckill/order/list" target="_blank">我的订单</a>\n' +
                     '                       </li>\n' +
                     '                       <li>\n' +
                     '                          <a href="#" id="logout">注销登陆</a>\n' +

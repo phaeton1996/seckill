@@ -3,14 +3,18 @@ package com.graduation.seckill.controller;
 import com.graduation.seckill.entity.Addr;
 import com.graduation.seckill.entity.Order;
 import com.graduation.seckill.enums.CodeMsg;
+import com.graduation.seckill.enums.RedisPrefix;
 import com.graduation.seckill.exception.RedirectException;
 import com.graduation.seckill.rabbitmq.MQSender;
+import com.graduation.seckill.redis.RedisService;
 import com.graduation.seckill.service.AddrService;
 import com.graduation.seckill.service.GoodsService;
 import com.graduation.seckill.service.OrderService;
+import com.graduation.seckill.utils.CookieUtil;
 import com.graduation.seckill.vo.OrderVo;
 import com.graduation.seckill.vo.Result;
 import com.graduation.seckill.vo.SeckillVo;
+import com.graduation.seckill.vo.UserVo;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static com.graduation.seckill.enums.CodeMsg.*;
 
@@ -38,6 +45,11 @@ public class OrderController implements InitializingBean {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private RedisService redisService;
+
+    private static String USER_COOKIE_NAME = "token";
 
     /**
      * 获取下单时的地址信息
@@ -58,6 +70,34 @@ public class OrderController implements InitializingBean {
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
     public Result<CodeMsg> order(OrderVo order) {
+        // 从redis查库存
+        int stock = goodsService.getGoodsStockCache(order.getGoodsId());
+        if (stock <= 0) {
+            return Result.returnWithCodeMsg(SEKILLGOODS_SOLD_OUT);
+        }
+        // 查询是否重复秒杀
+        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
+        if (orderVo != null) {
+            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
+        }
+        // 添加进消息队列
+        mqSender.sendMiaoshaMessage(new SeckillVo(order.getUserId(), order.getAddrId(), order.getGoodsId()));
+        return Result.returnWithCodeMsg(SEKILLGOODS_IN_MQ);
+    }
+
+    /**
+     * 处理秒杀操作 -- 测试接口
+     */
+    @RequestMapping(value = "/testsubmit", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<CodeMsg> order() {
+        OrderVo order = new OrderVo();
+        Random random = new Random();
+        int param = random.nextInt();
+        order.setUserId(param);
+        // 测试1004号商品
+        order.setGoodsId(1004);
+        order.setAddrId(param);
         // 从redis查库存
         int stock = goodsService.getGoodsStockCache(order.getGoodsId());
         if (stock <= 0) {
@@ -115,7 +155,12 @@ public class OrderController implements InitializingBean {
     }
 
     @RequestMapping("/list")
-    public String getByUserId(String userId, ModelMap map){
+    public String getByUserId(HttpServletRequest request, ModelMap map){
+        String value = CookieUtil.getCookieValue(request, USER_COOKIE_NAME);
+        UserVo userVo = redisService.get(RedisPrefix.USER_PREFIX, value, UserVo.class);
+        System.out.println(userVo.getId());
+        List<Order> orders = orderService.getByUserId(userVo.getId());
+        map.addAttribute("orderList",orders);
         return "orderlist";
     }
 }

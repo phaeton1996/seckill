@@ -38,7 +38,7 @@ public class GoodsController {
     @ResponseBody
     public Result<Goods> getGoodsDetail(Integer goodsId) {
         if (goodsId != null) {
-            Goods goods = goodsService.getById(goodsId);
+            Goods goods = goodsService.getCacheById(goodsId);
             if (goods != null) {
                 Result res = Result.returnWithCodeMsg(CodeMsg.GOODS_HAVE_FOUND);
                 res.setData(goods);
@@ -53,7 +53,7 @@ public class GoodsController {
 
     @RequestMapping("/detailV0")
     public String getGoodsDetailV0(Integer goodsId, ModelMap modelMap) {
-        Goods goods = goodsService.getById(goodsId);
+        Goods goods = goodsService.getCacheById(goodsId);
         modelMap.addAttribute("goods", goods);
         return "goods_detail";
     }

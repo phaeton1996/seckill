@@ -36,7 +36,7 @@ public interface OrderDao {
             "a.addr,a.phone,a.user_name," +
             "o.create_time,o.order_id,o.status " +
             "from user_addr a,goods g,seckill_order o " +
-            "where user_id = #{userid} and " +
+            "where o.user_id = #{userid} and " +
             "o.goods_id = g.id and o.addr_id = a.id")
     @Results({
             @Result(property = "goods.id", column = "id"),
@@ -50,7 +50,7 @@ public interface OrderDao {
             @Result(property = "orderId", column = "order_id"),
             @Result(property = "status", column = "status")
     })
-    List<Order> getByUserId(@Param("userid") String userid);
+    List<Order> getByUserId(@Param("userid") int userid);
 
     @Select("select " +
             "order_id " +
