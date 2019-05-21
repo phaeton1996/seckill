@@ -25,12 +25,11 @@ public class MQReceiver {
     public void receive(String message) {
         SeckillVo seckillVo = redisService.stringToBean(message, SeckillVo.class);
         // 判断库存
-        Goods goods = goodsService.getById(seckillVo.getGoodsId());
-        if (goods.getStocks() <= 0){
-            return;
-        }
+//        Goods goods = goodsService.getById(seckillVo.getGoodsId());
+//        if (goods.getStocks() <= 0){
+//            return;
+//        }
         // 下订单
         orderService.doSeckill(seckillVo);
-        return;
     }
 }

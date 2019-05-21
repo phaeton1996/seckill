@@ -39,6 +39,6 @@ public interface GoodsDao {
                                                 @Param(value = "goodsCategory") int goodsCategory);
 
 
-    @Update("update goods set stocks = stocks-1 where id = #{goodsId}")
+    @Update("update goods set stocks = stocks-1 where id = #{goodsId} and stocks > 0")
     int reduceStock(int goodsId);
 }

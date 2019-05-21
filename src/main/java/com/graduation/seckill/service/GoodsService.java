@@ -100,6 +100,16 @@ public class GoodsService {
         return res;
     }
 
+    public long decr(int goodsId){
+        Long stock = redisService.decr(RedisPrefix.GOODS_STOCK_PREFIX,Integer.toString(goodsId));
+        if (stock == null){
+            // 如果缓存已过期，则更新为-1
+            redisService.set(GOODS_STOCK_PREFIX,Integer.toString(goodsId),-1);
+            return -1;
+        }
+        return stock;
+    }
+
     public boolean reduceStock(int goodsId) {
         return goodsDao.reduceStock(goodsId) > 0;
     }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -37,10 +38,10 @@ public class OrderService {
 
     @Transactional
     public void doSeckill(SeckillVo seckillVo) {
-        OrderVo orderVo = orderDao.getByUserIDAndGoodsID(seckillVo.getUserId(), seckillVo.getGoodsId());
-        if (orderVo != null) {
-            return;
-        }
+//        OrderVo orderVo = orderDao.getByUserIDAndGoodsID(seckillVo.getUserId(), seckillVo.getGoodsId());
+//        if (orderVo != null) {
+//            return;
+//        }
         //减库存
         boolean success = goodsService.reduceStock(seckillVo.getGoodsId());
         if (success) {
@@ -49,23 +50,35 @@ public class OrderService {
             String orderId = prefix + UUID.randomUUID().toString().substring(0, 4);
             //写入数据库
             orderDao.createOrder(seckillVo.getUserId(), seckillVo.getGoodsId(), seckillVo.getAddrId(), orderId);
-            //数量缓存减1
-            redisService.decr(RedisPrefix.GOODS_STOCK_PREFIX,orderVo.getOrderId());
+            //数量缓存失效
+            redisService.expire(RedisPrefix.GOODS_STOCK_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
         } else {
             //设置卖完
-            redisService.set(RedisPrefix.GOODS_STOCK_PREFIX, orderVo.getOrderId(), 0);
+            redisService.set(RedisPrefix.GOODS_STOCK_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
         }
-        System.out.println("进入抢购操作");
     }
 
-    public List<Order> getByUserId(int userid){
+    public List<Order> getByUserId(int userid) {
         return orderDao.getByUserId(userid);
     }
 
-    public static void main(String[] args) {
-        Date date = new Date();
-        long prefix = date.getTime();
-        String orderId = prefix + UUID.randomUUID().toString().substring(0, 4);
-        System.out.println(orderId);
+    /**
+     * 模拟未优化的秒杀服务
+     */
+    public void _doseckill(OrderVo seckillVo) {
+        // 判断重复订单
+        OrderVo res = orderDao.getByUserIDAndGoodsID(seckillVo.getUserId(), seckillVo.getGoodsId());
+        if (res != null) {
+            return;
+        }
+        // 减库存
+        boolean success = goodsService.reduceStock(seckillVo.getGoodsId());
+        if (success) {
+            Date date = new Date();
+            long prefix = date.getTime();
+            String orderId = prefix + UUID.randomUUID().toString().substring(0, 4);
+            //写入数据库
+            orderDao.createOrder(seckillVo.getUserId(), seckillVo.getGoodsId(), seckillVo.getAddrId(), orderId);
+        }
     }
 }

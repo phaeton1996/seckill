@@ -70,48 +70,66 @@ public class OrderController implements InitializingBean {
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
     public Result<CodeMsg> order(OrderVo order) {
-        // 从redis查库存
-        int stock = goodsService.getGoodsStockCache(order.getGoodsId());
+        // 从redis中预减库存
+        long stock = redisService.decr(RedisPrefix.GOODS_STOCK_PREFIX,Integer.toString(order.getGoodsId()));
         if (stock <= 0) {
             return Result.returnWithCodeMsg(SEKILLGOODS_SOLD_OUT);
         }
         // 查询是否重复秒杀
-        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
-        if (orderVo != null) {
-            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
-        }
+//        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
+//        if (orderVo != null) {
+//            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
+//        }
         // 添加进消息队列
         mqSender.sendMiaoshaMessage(new SeckillVo(order.getUserId(), order.getAddrId(), order.getGoodsId()));
         return Result.returnWithCodeMsg(SEKILLGOODS_IN_MQ);
     }
 
     /**
-     * 处理秒杀操作 -- 测试接口
+     * 处理秒杀操作 -- 测试接口 -- 优化版本
      */
     @RequestMapping(value = "/testsubmit", method = RequestMethod.GET)
     @ResponseBody
     public Result<CodeMsg> order() {
         OrderVo order = new OrderVo();
-        Random random = new Random();
-        int param = random.nextInt();
+        int param = new Random().nextInt();
         order.setUserId(param);
         // 测试1004号商品
         order.setGoodsId(1004);
         order.setAddrId(param);
-        // 从redis查库存
-        int stock = goodsService.getGoodsStockCache(order.getGoodsId());
-        if (stock <= 0) {
+        // 从redis中预减库存
+        long stock = goodsService.decr(order.getGoodsId());
+        if (stock < 0) {
             return Result.returnWithCodeMsg(SEKILLGOODS_SOLD_OUT);
         }
         // 查询是否重复秒杀
-        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
-        if (orderVo != null) {
-            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
-        }
+//        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
+//        if (orderVo != null) {
+//            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
+//        }
+
         // 添加进消息队列
         mqSender.sendMiaoshaMessage(new SeckillVo(order.getUserId(), order.getAddrId(), order.getGoodsId()));
         return Result.returnWithCodeMsg(SEKILLGOODS_IN_MQ);
     }
+
+
+    /**
+     * 处理秒杀操作 -- 测试接口 -- 优化版本
+     */
+    @RequestMapping(value = "/_testsubmit", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<CodeMsg> _order(){
+        OrderVo order = new OrderVo();
+        int param = new Random().nextInt();
+        order.setUserId(param);
+        // 测试1004号商品
+        order.setGoodsId(1004);
+        order.setAddrId(param);
+        orderService._doseckill(order);
+        return null;
+    }
+
 
     /**
      * 返回秒杀结果
