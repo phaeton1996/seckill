@@ -248,8 +248,9 @@
             <!-- 上面部分 -->
             <div class="thumbnail">
                 <div class="img-size">
-                    <img class="group list-group-image" id="img"
-                         alt=""/>
+                    <img class="group list-group-image" id="img" alt=""/>
+                    <img src="png/play.png" onclick="play(1)"
+                         class="my-hover" style="opacity: 0.8;width: 50px;height: 50px;z-index: 999;position:absolute;margin-left: -128px;margin-top: 83px"/>
                 </div>
                 <div class="caption">
                     <h3 class="goodsname" id="name"></h3>
@@ -336,7 +337,7 @@
         if (now < startTime) {
             // 未开始
             countdown(statusHolder, startTime);
-        } else if (now > startTime && startTime < endTime) {
+        } else if (now > startTime && now < endTime) {
             // 正在抢购
             renderSeckilling(statusHolder);
         } else {
@@ -498,6 +499,18 @@
             error:function(){
                 layer.msg("客户端请求有误");
             }
+        });
+    }
+
+    function play(id) {
+        layer.open({
+            type: 2,
+            title: false,
+            area: ['630px', '360px'],
+            shade: 0.8,
+            closeBtn: 0,
+            shadeClose: true,
+            content: 'https://jdvod.300hu.com/4c1f7a6atransbjngwcloud1oss/56641c49115400742433460225/v.f30.mp4'
         });
     }
 
