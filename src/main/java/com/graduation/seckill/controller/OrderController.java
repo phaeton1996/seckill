@@ -11,6 +11,7 @@ import com.graduation.seckill.service.AddrService;
 import com.graduation.seckill.service.GoodsService;
 import com.graduation.seckill.service.OrderService;
 import com.graduation.seckill.utils.CookieUtil;
+import com.graduation.seckill.utils.QRCodeUtil;
 import com.graduation.seckill.vo.OrderVo;
 import com.graduation.seckill.vo.Result;
 import com.graduation.seckill.vo.SeckillVo;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -154,7 +154,9 @@ public class OrderController implements InitializingBean {
             if (order == null) {
                 throw new RedirectException(CodeMsg.SEKILLGOODS_NOT_EXIST);
             }
+            String src = QRCodeUtil.creatRrCode("http://192.168.0.114:8080/seckill/order/p_pay?orderId="+orderId,200,200);
             map.addAttribute("order", order);
+            map.addAttribute("src", src);
             return "order_detail";
         } else {
             throw new RedirectException(CodeMsg.SEKILLGOODS_ID_ILLEGAL);
@@ -180,5 +182,13 @@ public class OrderController implements InitializingBean {
         List<Order> orders = orderService.getByUserId(userVo.getId());
         map.addAttribute("orderList",orders);
         return "orderlist";
+    }
+
+
+    @RequestMapping("/p_pay")
+    public String p_pay(ModelMap modelMap,String orderId){
+        Order order = orderService.getById(orderId);
+        modelMap.addAttribute("order", order);
+        return "p_pay";
     }
 }
