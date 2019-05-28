@@ -28,7 +28,7 @@ public class LoginAOP {
     UserService userService;
 
     /* 切点 */
-    @Pointcut("execution(* com.graduation.seckill.controller.Dispactcher.testAOP())")
+    @Pointcut("execution(* com.graduation.seckill.controller.AOP.*.*())")
     public void loginCheck(){}
 
     /* 前置通知 */

@@ -20,12 +20,12 @@
 <body>
 <div class="container">
     <div class="row">
-        <center>
+        <center id="holder">
             <h4 th:text="${order.goods.name}" style="margin-top: 50%"></h4>
             <h3 th:text="${'需支付：' + #numbers.formatDecimal(order.goods.seckillPrice,0,2)}" style="font-weight: bold"></h3>
             <br/>
             <br/>
-            <button class="btn btn-success btn-lg">确认支付</button>
+            <button class="btn btn-success btn-lg" th:onclick="'javascript:pay(\''+${order.orderId}+'\')'">确认支付</button>
         </center>
     </div>
 
@@ -35,5 +35,16 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script>
+    function pay(orderId) {
+        $.ajax({
+            url:'http://192.168.0.114:8080/seckill/order/pay?orderId='+orderId,
+            success:function (res) {
+                alert(res?'支付成功':'支付失败');
+                $('#holder').html('<h3 style="font-weight: bold;margin-top: 30%">感谢光顾，祝您购物愉快！</h3>');
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.graduation.seckill.controller;
+package com.graduation.seckill.controller.AOP;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;

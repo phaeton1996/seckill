@@ -1,4 +1,4 @@
-package com.graduation.seckill.controller;
+package com.graduation.seckill.controller.AOP;
 
 import com.graduation.seckill.entity.Addr;
 import com.graduation.seckill.entity.Order;
@@ -76,10 +76,10 @@ public class OrderController implements InitializingBean {
             return Result.returnWithCodeMsg(SEKILLGOODS_SOLD_OUT);
         }
         // 查询是否重复秒杀
-//        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
-//        if (orderVo != null) {
-//            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
-//        }
+        OrderVo orderVo = orderService.getByUserIDAndGoodsID(order.getUserId(), order.getGoodsId());
+        if (orderVo != null) {
+            return Result.returnWithCodeMsg(SEKILLGOODS_REPEATED);
+        }
         // 添加进消息队列
         mqSender.sendMiaoshaMessage(new SeckillVo(order.getUserId(), order.getAddrId(), order.getGoodsId()));
         return Result.returnWithCodeMsg(SEKILLGOODS_IN_MQ);
@@ -190,5 +190,12 @@ public class OrderController implements InitializingBean {
         Order order = orderService.getById(orderId);
         modelMap.addAttribute("order", order);
         return "p_pay";
+    }
+
+    @RequestMapping("/pay")
+    @ResponseBody
+    public Boolean pay(ModelMap modelMap,String orderId){
+        int res = orderService.pay(orderId);
+        return res == 1;
     }
 }

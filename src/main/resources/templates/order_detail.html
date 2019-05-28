@@ -64,7 +64,7 @@
     <div class="row clearfix">
         <h1 class="page-big">订单详情</h1>
 
-        <div class="item list-group-item">
+        <div class="item list-group-item" style="height: 300px">
             <!-- 上面部分 -->
             <div class="thumbnail">
                 <div class="img-size">
@@ -74,11 +74,17 @@
                     <p class="order-goodsname " th:text="${order.goods.name}"></p>
                     <p class="" th:text="${'订单创建日期：'+ #dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></p>
                     <p class="" th:text="${'订单编号：&emsp;&emsp;'  + order.orderId}"></p>
-                    <p class="" th:text="${'订单状态：&emsp;&emsp;'  + order.status}"></p>
-                    <button th:text="${'订单状态：&emsp;&emsp;'  + order.status}" onclick="w_pay(1)"></button>
+
+                    <!--<p class="" >未支付</p>-->
+                    <p class="" th:if="${order.status==-1}">订单状态：&emsp;&emsp;异常订单</p>
+                    <p class="" th:if="${order.status==0}">订单状态：&emsp;&emsp;等待支付</p>
+                    <p class="" th:if="${order.status==1}">订单状态：&emsp;&emsp;已支付</p>
                     <p class="" th:text="${'订单金额：&emsp;&emsp;$' + #numbers.formatDecimal(order.goods.seckillPrice,0,2)}"></p>
                     <p class="" th:text="${'收货地址：&emsp;&emsp;'  + order.addr.addr}"></p>
                     <p class="" th:text="${'收货人：&emsp;&emsp;&emsp;'  + order.addr.userName}"></p>
+                    <div th:if="${order.status==0}" class="row">
+                        <button class="btn btn-primary btn-sm"  onclick="w_pay(1)"> 支付订单 </button>
+                    </div>
                 </div>
             </div>
 

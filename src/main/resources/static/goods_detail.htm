@@ -73,7 +73,7 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">秒杀新品</a></li>
+                <li class="active"><a href="/seckill/index">秒杀新品</a></li>
                 <li>
                     <a href="#">加入我们</a>
                 </li>
@@ -85,14 +85,14 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <!-- 搜索框 -->
-                <li>
-                    <div class="search d7" style="padding-top: 10px">
-                        <form>
-                            <input type="text" style="color:#F5F5F5;" placeholder="Search..."/>
-                            <button type="submit"></button>
-                        </form>
-                    </div>
-                </li>
+                <!--<li>-->
+                    <!--<div class="search d7" style="padding-top: 10px">-->
+                        <!--<form>-->
+                            <!--<input type="text" style="color:#F5F5F5;" placeholder="Search..."/>-->
+                            <!--<button type="submit"></button>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</li>-->
             </ul>
 
 
@@ -467,7 +467,6 @@
     }
 
     function getMiaoshaResult(){
-        alert(goodsId);
         $.ajax({
             url:"order/result",
             type:"POST",

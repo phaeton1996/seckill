@@ -23,6 +23,16 @@ public class Goods {
 
     private String descr;
 
+    private String videoUrl;
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +

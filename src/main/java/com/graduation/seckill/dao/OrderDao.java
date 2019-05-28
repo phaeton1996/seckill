@@ -64,4 +64,7 @@ public interface OrderDao {
             " )")
     void createOrder(@Param("userId")int userId, @Param("goodsId")int goodsId,
                      @Param("addrId")int addrId, @Param("orderId")String orderId);
+
+    @Update("update seckill_order set status = 1 where order_id = #{orderId}  AND STATUS != 1" )
+    int pay(@Param("orderId") String orderId);
 }

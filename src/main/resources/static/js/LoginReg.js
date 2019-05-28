@@ -122,9 +122,9 @@ $("#user_reg_btn").click(function () {
 });
 
 //正则表达式检验的结果
-var isAccountReg = false;
-var isPwdReg = false;
-var isVal = false;
+var isAccountReg = true;
+var isPwdReg = true;
+var isVal = true;
 
 //账号的正则检验
 $("#reg_account_input").change(function () {

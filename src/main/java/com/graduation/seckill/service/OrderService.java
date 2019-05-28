@@ -1,6 +1,8 @@
 package com.graduation.seckill.service;
 
+import com.graduation.seckill.dao.GoodsDao;
 import com.graduation.seckill.dao.OrderDao;
+import com.graduation.seckill.entity.Goods;
 import com.graduation.seckill.entity.Order;
 import com.graduation.seckill.enums.RedisPrefix;
 import com.graduation.seckill.redis.RedisService;
@@ -16,11 +18,16 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import static com.graduation.seckill.enums.RedisPrefix.GOODS_STOCK_PREFIX;
+
 @Service
 public class OrderService {
 
     @Autowired
     private OrderDao orderDao;
+
+    @Autowired
+    private GoodsDao goodsDao;
 
     @Autowired
     private GoodsService goodsService;
@@ -51,7 +58,10 @@ public class OrderService {
             //写入数据库
             orderDao.createOrder(seckillVo.getUserId(), seckillVo.getGoodsId(), seckillVo.getAddrId(), orderId);
             //数量缓存失效
-            redisService.expire(RedisPrefix.GOODS_STOCK_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
+            redisService.expire(RedisPrefix.GOODS_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
+            //重新设置缓存库存量
+            Goods goods = goodsDao.getById(seckillVo.getGoodsId());
+            redisService.set(GOODS_STOCK_PREFIX,Integer.toString(goods.getId()),goods.getStocks());
         } else {
             //设置卖完
             redisService.set(RedisPrefix.GOODS_STOCK_PREFIX, Integer.toString(seckillVo.getGoodsId()), 0);
@@ -80,5 +90,9 @@ public class OrderService {
             //写入数据库
             orderDao.createOrder(seckillVo.getUserId(), seckillVo.getGoodsId(), seckillVo.getAddrId(), orderId);
         }
+    }
+
+    public int pay(String orderId) {
+        return orderDao.pay(orderId);
     }
 }
